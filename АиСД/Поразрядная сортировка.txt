@@ -1,0 +1,89 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Пример использования:
+        int[] arr = { 329, 457, 657, 839, 436, 720, 355 };
+        
+        Console.WriteLine("Исходный массив:");
+        PrintArray(arr);
+
+        RadixSort(arr);
+
+        Console.WriteLine("Отсортированный массив:");
+        PrintArray(arr);
+    }
+
+    static void RadixSort(int[] arr)
+    {
+        int max = GetMaxValue(arr);
+
+        for (int exp = 1; max / exp > 0; exp *= 10)
+        {
+            CountingSort(arr, exp);
+        }
+    }
+
+    static void CountingSort(int[] arr, int exp)
+    {
+        int n = arr.Length;
+        int[] output = new int[n];
+        int[] count = new int[10];
+
+        for (int i = 0; i < n; i++)
+        {
+            count[(arr[i] / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++)
+        {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--)
+        {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            arr[i] = output[i];
+        }
+    }
+
+    static int GetMaxValue(int[] arr)
+    {
+        int max = arr[0];
+        int n = arr.Length;
+
+        for (int i = 1; i < n; i++)
+        {
+            if (arr[i] > max)
+            {
+                max = arr[i];
+            }
+        }
+
+        return max;
+    }
+
+    static void PrintArray(int[] arr)
+    {
+        foreach (int num in arr)
+        {
+            Console.Write(num + " ");
+        }
+
+        Console.WriteLine();
+    }
+}
+
+В данном примере функция RadixSort реализует алгоритм поразрядной сортировки. Она проходит через цифры чисел, начиная с младшего разряда и заканчивая старшим. Внутри RadixSort используется вспомогательная функция CountingSort, которая выполняет сортировку подсчетом для каждого разряда чисел.
+
+Функция CountingSort считает количество вхождений каждой цифры и строит массив count, где каждый элемент count[i] содержит количество чисел, имеющих цифру i. Затем она строит выходной массив output, располагая числа в правильном порядке для текущего разряда. Наконец, функция перезаписывает исходный массив с помощью выходного массива.
+
+Функция GetMaxValue используется для нахождения максимального значения в массиве, чтобы определить количество разрядов для итераций в алгоритме.
+

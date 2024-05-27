@@ -1,0 +1,23 @@
+https://github.com/YanShovkan/gos.git - Шовкань Ян гит 
+https://github.com/KolasikOmetov/Practica.git - гит хуевенький но с андроидом
+https://github.com/D4Gj/gos.git - гит Ахметов вор
+
+
+git clone *ссылка на гит*
+cd *название папки* (например gos, Practica)
+git checkout *Название ветки* (например ip, aisd)
+dir(просмотр содержимого в ветке)
+в VS 
+devenv (имя файла)
+
+.....................................................................................
+создание реакт проекта
+
+npx create-react-app my-app
+cd C:/Users/Властелин/Desktop/react
+
+cd my-app
+npm start
+
+
+npm install --save react-router-dom ()

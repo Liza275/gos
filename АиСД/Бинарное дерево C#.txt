@@ -1,0 +1,186 @@
+using System;
+
+namespace BinarySearchTree
+{
+    class Node
+    {
+        public int data;
+        public Node left;
+        public Node right;
+
+        public Node(int value)
+        {
+            data = value;
+            left = null;
+            right = null;
+        }
+    }
+
+    class BinarySearchTree
+    {
+        private Node root;
+
+        public BinarySearchTree()
+        {
+            root = null;
+        }
+
+        public void Insert(int value)
+        {
+            root = InsertRecursive(root, value);
+        }
+
+        private Node InsertRecursive(Node current, int value)
+        {
+            if (current == null)
+            {
+                return new Node(value);
+            }
+
+            if (value < current.data)
+            {
+                current.left = InsertRecursive(current.left, value);
+            }
+            else if (value > current.data)
+            {
+                current.right = InsertRecursive(current.right, value);
+            }
+
+            return current;
+        }
+
+        public bool Search(int value)
+        {
+            return SearchRecursive(root, value);
+        }
+
+        private bool SearchRecursive(Node current, int value)
+        {
+            if (current == null)
+            {
+                return false;
+            }
+
+            if (value == current.data)
+            {
+                return true;
+            }
+
+            if (value < current.data)
+            {
+                return SearchRecursive(current.left, value);
+            }
+            else
+            {
+                return SearchRecursive(current.right, value);
+            }
+        }
+
+        public void Delete(int value)
+        {
+            root = DeleteRecursive(root, value);
+        }
+
+        private Node DeleteRecursive(Node current, int value)
+        {
+            if (current == null)
+            {
+                return null;
+            }
+
+            if (value < current.data)
+            {
+                current.left = DeleteRecursive(current.left, value);
+            }
+            else if (value > current.data)
+            {
+                current.right = DeleteRecursive(current.right, value);
+            }
+            else
+            {
+                // Узел найден, производим удаление
+
+                // Узел без детей или с одним ребенком
+                if (current.left == null)
+                {
+                    return current.right;
+                }
+                else if (current.right == null)
+                {
+                    return current.left;
+                }
+
+                // Узел с двумя детьми
+                current.data = GetMinValue(current.right);
+                current.right = DeleteRecursive(current.right, current.data);
+            }
+
+            return current;
+        }
+
+        private int GetMinValue(Node node)
+        {
+            int minValue = node.data;
+            while (node.left != null)
+            {
+                minValue = node.left.data;
+                node = node.left;
+            }
+            return minValue;
+        }
+
+        public void PrintInOrder()
+        {
+            PrintInOrderRecursive(root);
+            Console.WriteLine();
+        }
+
+        private void PrintInOrderRecursive(Node current)
+        {
+            if (current != null)
+            {
+                PrintInOrderRecursive(current.left);
+                Console.Write($"{current.data} ");
+                PrintInOrderRecursive(current.right);
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BinarySearchTree bst = new BinarySearchTree();
+
+            bst.Insert(50);
+            bst.Insert(30);
+            bst.Insert(20);
+            bst.Insert(40);
+            bst.Insert(70);
+            bst.Insert(60);
+            bst.Insert(80);
+
+            Console.WriteLine("In-order traversal of the binary search tree:");
+            bst.PrintInOrder();
+
+            int searchValue = 40;
+            Console.WriteLine($"Search for {searchValue}: {bst.Search(searchValue)}");
+
+            searchValue = 90;
+            Console.WriteLine($"Search for {searchValue}: {bst.Search(searchValue)}");
+
+            int deleteValue = 30;
+            Console.WriteLine($"Deleting {deleteValue} from the binary search tree.");
+            bst.Delete(deleteValue);
+
+            Console.WriteLine("In-order traversal after deletion:");
+            bst.PrintInOrder();
+
+            Console.ReadLine();
+        }
+    }
+}
+
+В этой модифицированной версии добавлен метод Delete, который осуществляет удаление элемента из бинарного дерева поиска. В методе DeleteRecursive происходит поиск узла с заданным значением и производится его удаление в зависимости от количества потомков. Если узел не имеет потомков или имеет только одного потомка, то он просто удаляется и заменяется на соответствующего потомка. В случае, если у узла есть два потомка, то значение узла заменяется на минимальное значение из правого поддерева, а затем узел с минимальным значением удаляется из правого поддерева. Таким образом, гарантируется, что бинарное дерево поиска остается сбалансированным и сохраняет свои свойства.
+
+В этом примере создается класс Node, представляющий узел дерева, и класс BinarySearchTree, реализующий само бинарное дерево поиска. Класс BinarySearchTree содержит методы для вставки элемента в дерево (Insert), поиска элемента в дереве (Search) и вывода элементов дерева в порядке возрастания (PrintInOrder). В методе Main создается экземпляр BinarySearchTree, в него добавляются несколько элементов, выводится порядок их обхода в дереве и производятся поиски значений.

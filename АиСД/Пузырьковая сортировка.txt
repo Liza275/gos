@@ -1,0 +1,63 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Пример использования:
+        int[] arr = { 9, 7, 5, 11, 12, 2, 14, 3, 10, 6 };
+
+        Console.WriteLine("Исходный массив:");
+        PrintArray(arr);
+
+        BubbleSort(arr);
+
+        Console.WriteLine("Отсортированный массив:");
+        PrintArray(arr);
+    }
+
+    static void BubbleSort(int[] arr)
+    {
+        int n = arr.Length;
+        bool swapped;
+
+        for (int i = 0; i < n - 1; i++)
+        {
+            swapped = false;
+
+            for (int j = 0; j < n - i - 1; j++)
+            {
+                if (arr[j] > arr[j + 1])
+                {
+                    Swap(ref arr[j], ref arr[j + 1]);
+                    swapped = true;
+                }
+            }
+
+            // Если внутренний цикл не выполнил ни одной замены, то массив уже отсортирован
+            if (!swapped)
+                break;
+        }
+    }
+
+    static void Swap(ref int a, ref int b)
+    {
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+
+    static void PrintArray(int[] arr)
+    {
+        foreach (int num in arr)
+        {
+            Console.Write(num + " ");
+        }
+
+        Console.WriteLine();
+    }
+}
+
+В данном примере функция BubbleSort реализует алгоритм пузырьковой сортировки. Она проходит по массиву и сравнивает каждую пару соседних элементов. Если текущий элемент больше следующего, то они меняются местами. После первой итерации самый большой элемент будет "всплывать" на последнюю позицию массива. Затем процесс повторяется для оставшихся элементов, пока массив не будет полностью отсортирован.
+
+Вспомогательная функция Swap используется для обмена значений двух переменных.
